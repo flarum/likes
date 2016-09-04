@@ -66,7 +66,7 @@ class SaveLikesToDatabase
     public function whenPostWasDeleted(PostWasDeleted $event)
     {
         $event->post->likes()->detach();
-        
+
         Notification::where('subject_id', $event->post->id)->delete();
     }
 }
