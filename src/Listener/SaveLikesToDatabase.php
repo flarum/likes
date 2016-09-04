@@ -12,6 +12,7 @@
 namespace Flarum\Likes\Listener;
 
 use Flarum\Core\Access\AssertPermissionTrait;
+use Flarum\Core\Notification;
 use Flarum\Event\PostWasDeleted;
 use Flarum\Event\PostWillBeSaved;
 use Flarum\Likes\Event\PostWasLiked;
@@ -65,5 +66,7 @@ class SaveLikesToDatabase
     public function whenPostWasDeleted(PostWasDeleted $event)
     {
         $event->post->likes()->detach();
+
+        Notification::where('subject_id', $event->post->id)->delete();
     }
 }
