@@ -72,7 +72,8 @@ class AddPostLikesRelationship
      */
     public function includeLikes(ConfigureApiController $event)
     {
-        if ($event->isController(Controller\ShowDiscussionController::class)) {
+        if ($event->isController(Controller\ShowDiscussionController::class)
+            || $event->isController(Controller\ListDiscussionsController::class)) {
             $event->addInclude('posts.likes');
         }
 
