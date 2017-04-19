@@ -9,7 +9,7 @@ System.register('flarum/likes/addLikeAction', ['flarum/extend', 'flarum/app', 'f
     extend(CommentPost.prototype, 'actionItems', function (items) {
       var post = this.props.post;
 
-      if (post.isHidden() || !post.canLike()) return;
+      if (post.isHidden() || !post.canLike() || post.discussion().isLocked()) return;
 
       var isLiked = app.session.user && post.likes().some(function (user) {
         return user === app.session.user;
