@@ -29,8 +29,7 @@ class PostPolicy extends AbstractPolicy
      */
     public function like(User $actor, Post $post)
     {
-        $discussion = $post->discussion;
-        if ($discussion->is_locked) {
+        if ($post->discussion->is_locked) {
             return false;
         }
     }
