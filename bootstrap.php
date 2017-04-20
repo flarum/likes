@@ -9,6 +9,7 @@
  * file that was distributed with this source code.
  */
 
+use Flarum\Likes\Access;
 use Flarum\Likes\Listener;
 use Illuminate\Contracts\Events\Dispatcher;
 
@@ -17,4 +18,6 @@ return function (Dispatcher $events) {
     $events->subscribe(Listener\AddPostLikesRelationship::class);
     $events->subscribe(Listener\SaveLikesToDatabase::class);
     $events->subscribe(Listener\SendNotificationWhenPostIsLiked::class);
+  
+    $events->subscribe(Access\PostPolicy::class);
 };

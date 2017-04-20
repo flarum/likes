@@ -7,7 +7,7 @@ export default function() {
   extend(CommentPost.prototype, 'actionItems', function(items) {
     const post = this.props.post;
 
-    if (post.isHidden() || !post.canLike() || post.discussion().isLocked()) return;
+    if (post.isHidden() || !post.canLike()) return;
 
     let isLiked = app.session.user && post.likes().some(user => user === app.session.user);
 
