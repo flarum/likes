@@ -11,11 +11,11 @@
 
 namespace Flarum\Likes\Listener;
 
-use Flarum\User\AssertPermissionTrait;
 use Flarum\Event\Deleted;
 use Flarum\Event\Saving;
 use Flarum\Likes\Event\PostWasLiked;
 use Flarum\Likes\Event\PostWasUnliked;
+use Flarum\User\AssertPermissionTrait;
 use Illuminate\Contracts\Events\Dispatcher;
 
 class SaveLikesToDatabase
