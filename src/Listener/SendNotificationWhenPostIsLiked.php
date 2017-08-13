@@ -11,10 +11,10 @@
 
 namespace Flarum\Likes\Listener;
 
-use Flarum\Api\Serializer\PostBasicSerializer;
-use Flarum\Core\Notification\NotificationSyncer;
-use Flarum\Core\Post;
-use Flarum\Core\User;
+use Flarum\Api\Serializer\BasicPostSerializer;
+use Flarum\Notification\NotificationSyncer;
+use Flarum\Post\Post;
+use Flarum\User\User;
 use Flarum\Event\ConfigureNotificationTypes;
 use Flarum\Likes\Event\PostWasLiked;
 use Flarum\Likes\Event\PostWasUnliked;
