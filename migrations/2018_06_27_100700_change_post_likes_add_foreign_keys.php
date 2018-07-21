@@ -14,22 +14,26 @@ use Illuminate\Database\Schema\Builder;
 
 return [
     'up' => function (Builder $schema) {
-        // Make sure the entities exist so that we will be able to create
+        // Delete rows with non-existent entities so that we will be able to create
         // foreign keys without any issues.
-        $connection = $schema->getConnection();
-        $prefix = $connection->getTablePrefix();
-        $connection->statement("delete from {$prefix}posts_likes
-            where not exists (select 1 from {$prefix}posts where id = post_id)
-            or not exists (select 1 from {$prefix}users where id = user_id)");
+        $schema->getConnection()
+            ->table('post_likes')
+            ->whereNotExists(function ($query) {
+                $query->selectRaw(1)->from('posts')->whereRaw('id = post_id');
+            })
+            ->orWhereNotExists(function ($query) {
+                $query->selectRaw(1)->from('users')->whereRaw('id = user_id');
+            })
+            ->delete();
 
-        $schema->table('posts_likes', function (Blueprint $table) {
+        $schema->table('post_likes', function (Blueprint $table) {
             $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     },
 
     'down' => function (Builder $schema) {
-        $schema->table('posts_likes', function (Blueprint $table) {
+        $schema->table('post_likes', function (Blueprint $table) {
             $table->dropForeign(['post_id', 'user_id']);
         });
     }
