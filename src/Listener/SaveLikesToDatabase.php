@@ -38,7 +38,7 @@ class SaveLikesToDatabase
             $actor = $event->actor;
             $liked = (bool) $data['attributes']['isLiked'];
 
-            $actor->can('like', $post);
+            $actor->assertCan('like', $post);
 
             $currentlyLiked = $post->likes()->where('user_id', $actor->id)->exists();
 
