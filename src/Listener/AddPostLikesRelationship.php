@@ -10,11 +10,7 @@
 namespace Flarum\Likes\Listener;
 
 use Flarum\Api\Controller;
-use Flarum\Api\Event\Serializing;
 use Flarum\Api\Event\WillGetData;
-use Flarum\Api\Serializer\BasicUserSerializer;
-use Flarum\Api\Serializer\PostSerializer;
-use Flarum\Event\GetApiRelationship;
 use Illuminate\Contracts\Events\Dispatcher;
 
 class AddPostLikesRelationship
@@ -24,30 +20,7 @@ class AddPostLikesRelationship
      */
     public function subscribe(Dispatcher $events)
     {
-        $events->listen(GetApiRelationship::class, [$this, 'getApiAttributes']);
-        $events->listen(Serializing::class, [$this, 'prepareApiAttributes']);
         $events->listen(WillGetData::class, [$this, 'includeLikes']);
-    }
-
-    /**
-     * @param GetApiRelationship $event
-     * @return \Tobscure\JsonApi\Relationship|null
-     */
-    public function getApiAttributes(GetApiRelationship $event)
-    {
-        if ($event->isRelationship(PostSerializer::class, 'likes')) {
-            return $event->serializer->hasMany($event->model, BasicUserSerializer::class, 'likes');
-        }
-    }
-
-    /**
-     * @param Serializing $event
-     */
-    public function prepareApiAttributes(Serializing $event)
-    {
-        if ($event->isSerializer(PostSerializer::class)) {
-            $event->attributes['canLike'] = (bool) $event->actor->can('like', $event->model);
-        }
     }
 
     /**

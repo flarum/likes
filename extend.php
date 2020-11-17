@@ -7,6 +7,7 @@
  * LICENSE file that was distributed with this source code.
  */
 
+use Flarum\Api\Serializer\BasicUserSerializer;
 use Flarum\Api\Serializer\PostSerializer;
 use Flarum\Extend;
 use Flarum\Likes\Event\PostWasLiked;
@@ -32,6 +33,12 @@ return [
 
     (new Extend\Notification())
         ->type(PostLikedBlueprint::class, PostSerializer::class, ['alert']),
+
+    (new Extend\ApiSerializer(PostSerializer::class))
+        ->hasMany('likes', BasicUserSerializer::class)
+        ->attribute('canLike', function (array $attributes, $model, PostSerializer $serializer) {
+            return (bool) $serializer->getActor()->can('like', $model);
+        }),
 
     function (Dispatcher $events) {
         $events->subscribe(Listener\AddPostLikesRelationship::class);
