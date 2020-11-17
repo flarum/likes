@@ -40,11 +40,12 @@ return [
             return (bool) $serializer->getActor()->can('like', $model);
         }),
 
+    (new Extend\Event())
+        ->listen(PostWasLiked::class, Listener\SendNotificationWhenPostIsLiked::class)
+        ->listen(PostWasUnliked::class, Listener\SendNotificationWhenPostIsUnliked::class),
+
     function (Dispatcher $events) {
         $events->subscribe(Listener\AddPostLikesRelationship::class);
         $events->subscribe(Listener\SaveLikesToDatabase::class);
-
-        $events->listen(PostWasLiked::class, Listener\SendNotificationWhenPostIsLiked::class);
-        $events->listen(PostWasUnliked::class, Listener\SendNotificationWhenPostIsUnliked::class);
     },
 ];
