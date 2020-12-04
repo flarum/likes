@@ -7,6 +7,7 @@
  * LICENSE file that was distributed with this source code.
  */
 
+use Flarum\Api\Controller;
 use Flarum\Api\Serializer\BasicUserSerializer;
 use Flarum\Api\Serializer\PostSerializer;
 use Flarum\Extend;
@@ -36,16 +37,27 @@ return [
 
     (new Extend\ApiSerializer(PostSerializer::class))
         ->hasMany('likes', BasicUserSerializer::class)
-        ->attribute('canLike', function (array $attributes, $model, PostSerializer $serializer) {
+        ->attribute('canLike', function (PostSerializer $serializer, $model) {
             return (bool) $serializer->getActor()->can('like', $model);
         }),
+
+    (new Extend\ApiController(Controller\ShowDiscussionController::class))
+        ->addInclude('posts.likes'),
+
+    (new Extend\ApiController(Controller\ListPostsController::class))
+        ->addInclude('likes'),
+    (new Extend\ApiController(Controller\ShowPostController::class))
+        ->addInclude('likes'),
+    (new Extend\ApiController(Controller\CreatePostController::class))
+        ->addInclude('likes'),
+    (new Extend\ApiController(Controller\UpdatePostController::class))
+        ->addInclude('likes'),
 
     (new Extend\Event())
         ->listen(PostWasLiked::class, Listener\SendNotificationWhenPostIsLiked::class)
         ->listen(PostWasUnliked::class, Listener\SendNotificationWhenPostIsUnliked::class),
 
     function (Dispatcher $events) {
-        $events->subscribe(Listener\AddPostLikesRelationship::class);
         $events->subscribe(Listener\SaveLikesToDatabase::class);
     },
 ];
