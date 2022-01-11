@@ -1,6 +1,4 @@
-import { extend } from 'flarum/extend';
-import app from 'flarum/app';
-import PermissionGrid from 'flarum/components/PermissionGrid';
+import app from 'flarum/admin/app';
 
 app.initializers.add('flarum-likes', () => {
   app.extensionData

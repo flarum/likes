@@ -1,10 +1,10 @@
-import { extend } from 'flarum/extend';
-import app from 'flarum/app';
-import CommentPost from 'flarum/components/CommentPost';
-import Link from 'flarum/components/Link';
-import punctuateSeries from 'flarum/helpers/punctuateSeries';
-import username from 'flarum/helpers/username';
-import icon from 'flarum/helpers/icon';
+import { extend } from 'flarum/common/extend';
+import app from 'flarum/forum/app';
+import CommentPost from 'flarum/forum/components/CommentPost';
+import Link from 'flarum/common/components/Link';
+import punctuateSeries from 'flarum/common/helpers/punctuateSeries';
+import username from 'flarum/common/helpers/username';
+import icon from 'flarum/common/helpers/icon';
 
 import PostLikesModal from './components/PostLikesModal';
 

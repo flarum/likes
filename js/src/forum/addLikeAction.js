@@ -1,7 +1,7 @@
-import { extend } from 'flarum/extend';
-import app from 'flarum/app';
-import Button from 'flarum/components/Button';
-import CommentPost from 'flarum/components/CommentPost';
+import { extend } from 'flarum/common/extend';
+import app from 'flarum/forum/app';
+import Button from 'flarum/common/components/Button';
+import CommentPost from 'flarum/forum/components/CommentPost';
 
 export default function() {
   extend(CommentPost.prototype, 'actionItems', function(items) {

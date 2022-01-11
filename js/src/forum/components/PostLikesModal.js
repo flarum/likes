@@ -1,7 +1,8 @@
-import Modal from 'flarum/components/Modal';
-import Link from 'flarum/components/Link';
-import avatar from 'flarum/helpers/avatar';
-import username from 'flarum/helpers/username';
+import app from 'flarum/forum/app';
+import Modal from 'flarum/common/components/Modal';
+import Link from 'flarum/common/components/Link';
+import avatar from 'flarum/common/helpers/avatar';
+import username from 'flarum/common/helpers/username';
 
 export default class PostLikesModal extends Modal {
   className() {
