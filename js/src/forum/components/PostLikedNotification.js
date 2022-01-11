@@ -15,7 +15,7 @@ export default class PostLikedNotification extends Notification {
     const notification = this.attrs.notification;
     const user = notification.fromUser();
 
-    return app.translator.trans('flarum-likes.forum.notifications.post_liked_text', {user, count: 1});
+    return app.translator.trans('flarum-likes.forum.notifications.post_liked_text', { user, count: 1 });
   }
 
   excerpt() {

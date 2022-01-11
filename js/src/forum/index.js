@@ -21,7 +21,7 @@ app.initializers.add('flarum-likes', () => {
     items.add('postLiked', {
       name: 'postLiked',
       icon: 'far fa-thumbs-up',
-      label: app.translator.trans('flarum-likes.forum.settings.notify_post_liked_label')
+      label: app.translator.trans('flarum-likes.forum.settings.notify_post_liked_label'),
     });
   });
 });
