@@ -12,7 +12,7 @@ use Flarum\Database\Migration;
 return Migration::addColumns('post_likes', [
     'created_at' => [
         'timestamp',
-        'null' => false,
+        'null'       => false,
         'useCurrent' => true,
     ],
 ]);

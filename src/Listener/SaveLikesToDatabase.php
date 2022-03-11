@@ -32,7 +32,7 @@ class SaveLikesToDatabase
 
             $currentlyLiked = $post->likes()->where('user_id', $actor->id)->exists();
 
-            if ($liked && ! $currentlyLiked) {
+            if ($liked && !$currentlyLiked) {
                 $post->likes()->attach($actor->id);
 
                 $post->raise(new PostWasLiked($post, $actor));
