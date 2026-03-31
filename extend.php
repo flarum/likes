@@ -57,7 +57,32 @@ return [
             function (Endpoint\Show|Endpoint\Index|Endpoint\Create $endpoint): Endpoint\Endpoint {
                 return $endpoint->addDefaultInclude(['firstPost.likes', 'lastPost.likes']);
             }
+        )
+        ->endpoint(
+            Endpoint\Index::class,
+            function (Endpoint\Index $endpoint): Endpoint\Index {
+                return $endpoint->eagerLoadWhenIncluded([
+                    'firstPost' => ['firstPost.likes', 'firstPost.likes.groups'],
+                    'lastPost' => ['lastPost.likes', 'lastPost.likes.groups'],
+                ]);
+            }
         ),
+
+    // When tags is enabled, also pre-load the back-reference to discussion and its tags,
+    // needed to avoid N+1s in DiscussionPolicy::can() which accesses $discussion->tags.
+    (new Extend\Conditional())
+        ->whenExtensionEnabled('flarum-tags', fn () => [
+            (new Extend\ApiResource(Resource\DiscussionResource::class))
+                ->endpoint(
+                    Endpoint\Index::class,
+                    function (Endpoint\Index $endpoint): Endpoint\Index {
+                        return $endpoint->eagerLoadWhenIncluded([
+                            'firstPost' => ['firstPost.discussion', 'firstPost.discussion.tags'],
+                            'lastPost' => ['lastPost.discussion', 'lastPost.discussion.tags'],
+                        ]);
+                    }
+                ),
+        ]),
 
     (new Extend\Event())
         ->listen(PostWasLiked::class, Listener\SendNotificationWhenPostIsLiked::class)
