@@ -14,9 +14,30 @@ use Flarum\User\User;
 
 class PostWasLiked
 {
-    public function __construct(
-        public Post $post,
-        public User $user
-    ) {
+    /**
+     * @var Post
+     */
+    public $post;
+
+    /**
+     * @var User
+     */
+    public $user;
+
+    /**
+     * @var User
+     */
+    public $actor;
+
+    /**
+     * @param Post $post
+     * @param User $user
+     * @param User $actor
+     */
+    public function __construct(Post $post, User $user, User $actor)
+    {
+        $this->post = $post;
+        $this->user = $user;
+        $this->actor = $actor;
     }
 }
